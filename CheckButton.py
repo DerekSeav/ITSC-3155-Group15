@@ -97,7 +97,7 @@ R6 = tk.Checkbutton(win, text="Rating Pending", variable=RP).place(x=250, y=255)
 
 def tagParse():
     # tags tuple
-    tagtuple = tags.curselection()
+    tagtuple = tags.get(tags.curselection())
 
     # rating list
     ratlist = []
@@ -108,7 +108,7 @@ def tagParse():
     if T.get():
         ratlist.append("T")
     if E10.get():
-        ratlist.append("E10")
+        ratlist.append("10")
     if E.get():
         ratlist.append("E")
     if RP.get():
@@ -132,8 +132,10 @@ def tagParse():
         catlist.append("Racing")
 
     search_list = catlist
+    search_ratlist = ratlist
+    #search_taglist = tagtuple.title()
     # search_val = search_val.title()
-    f = open('database - database.csv')
+    f = open('database.csv')
     csv_f = csv.reader(f)
 
     num_of_matches = 0
@@ -145,10 +147,52 @@ def tagParse():
     for row in csv_f:
         # if row[2] == search_val:
         #     print("hello")
-        for value in search_list:
-            if value in row[2]:
-                num_of_matches += 1
-                matching_games.append(row[0])
+        if len(tagtuple) > 0:
+            for tag in tagtuple:
+                if len(search_list) > 0:
+                    for value in search_list:
+                        if len(search_ratlist) > 0:
+                            for ratval in search_ratlist:
+                                if ratval in row[3]:
+                                    if value in row[2]:
+                                        if tag in row[4] or tag in row[5] or tag in row[6] or tag in row[7] or tag in row[8]:
+                                            num_of_matches += 1
+                                            matching_games.append(row[0])
+                        else:
+                            if value in row[2]:
+                                if tag in row[4] or tag in row[5] or tag in row[6] or tag in row[7] or tag in row[8]:
+                                    num_of_matches += 1
+                                    matching_games.append(row[0])
+                else:
+                    if len(search_ratlist) > 0:
+                        for ratval in search_ratlist:
+                            if ratval in row[3]:
+                                if tag in row[4] or tag in row[5] or tag in row[6] or tag in row[7] or tag in row[8]:
+                                    num_of_matches += 1
+                                    matching_games.append(row[0])
+                    else:
+                        if tag in row[4] or tag in row[5] or tag in row[6] or tag in row[7] or tag in row[8]:
+                            num_of_matches += 1
+                            matching_games.append(row[0])
+        else:
+            if len(search_list) > 0:
+                for value in search_list:
+                    if len(search_ratlist) > 0:
+                        for ratval in search_ratlist:
+                            if ratval in row[3]:
+                                if value in row[2]:
+                                    num_of_matches += 1
+                                    matching_games.append(row[0])
+                    else:
+                        if value in row[2]:
+                            num_of_matches += 1
+                            matching_games.append(row[0])
+            else:
+                for ratval in search_ratlist:
+                    if ratval in row[3]:
+                        num_of_matches += 1
+                        matching_games.append(row[0])
+
 
     numMatch = 'Number of matches: ' + str(num_of_matches)
     print(numMatch)
