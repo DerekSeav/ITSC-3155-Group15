@@ -2,7 +2,7 @@ import tkinter as tk
 import csv
 
 win = tk.Tk()
-win.minsize(450, 430)
+win.minsize(450, 480)
 
 # row 0
 label = tk.Label(win, text="Search by name:").grid(row=0, padx=10)
@@ -30,7 +30,6 @@ RPG = tk.IntVar()
 Simulation = tk.IntVar()
 Sports = tk.IntVar()
 Racing = tk.IntVar()
-Adventure = tk.IntVar()
 
 c1 = tk.Checkbutton(win, text="Action", variable=Action).place(x=10, y=155)
 c2 = tk.Checkbutton(win, text="Strategy", variable=Strategy).place(x=10, y=175)
@@ -39,7 +38,6 @@ c4 = tk.Checkbutton(win, text="RPG", variable=RPG).place(x=10, y=215)
 c5 = tk.Checkbutton(win, text="Simulation", variable=Simulation).place(x=10, y=235)
 c6 = tk.Checkbutton(win, text="Sports", variable=Sports).place(x=10, y=255)
 c7 = tk.Checkbutton(win, text="Racing", variable=Racing).place(x=10, y=275)
-c8 = tk.Checkbutton(win, text="Adventure", variable=Adventure).place(x=10, y=295)
 
 # tags listbox
 tags = tk.Listbox(win, height=9, xscrollcommand=True, selectmode=tk.MULTIPLE)
@@ -132,12 +130,10 @@ def tagParse():
         catlist.append("Sports")
     if Racing.get():
         catlist.append("Racing")
-    if Adventure.get():
-        catlist.append("Adventure")
 
     search_list = catlist
     # search_val = search_val.title()
-    f = open('database.csv')
+    f = open('database - database.csv')
     csv_f = csv.reader(f)
 
     num_of_matches = 0
@@ -160,11 +156,11 @@ def tagParse():
 
     output = tk.Text(win, height=10, width=40)
     output.insert(tk.END, numMatch)
-    output.insert(tk.END, "Games: \n")
+    output.insert(tk.END, " Games: \n")
     for y in matching_games:
         game = y + "\n"
         output.insert(tk.END, game)
-    output.grid(row=4, column=1)
+    output.place(x=100, y=310)
 
     win.update()
 
